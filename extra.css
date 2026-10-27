@@ -1,0 +1,101 @@
+/* ===== ABOUT ME (clickable card) ===== */
+.about-card {
+  margin-bottom: 28px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow), var(--edge);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.about-card:hover { background: var(--card-strong); box-shadow: var(--shadow-lg), var(--edge); }
+.about-card summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  cursor: pointer;
+}
+.about-card summary::-webkit-details-marker { display: none; }
+.about-card summary:focus-visible { outline: 2px solid var(--blob2); outline-offset: -4px; border-radius: 22px; }
+.about-head { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.about-title { font-size: 1.1rem; font-weight: 600; color: var(--ink); }
+.about-preview { font-size: 0.85rem; color: var(--muted); }
+.about-toggle {
+  flex-shrink: 0; width: 34px; height: 34px; display: grid; place-items: center;
+  border-radius: 50%; background: var(--tag); border: 1px solid var(--line);
+  box-shadow: var(--edge); color: var(--ink);
+  transition: transform 0.35s var(--ease), color 0.25s;
+}
+.about-card summary:hover .about-toggle { color: var(--blob2); }
+.about-card[open] .about-toggle { transform: rotate(45deg); }
+.about-body { padding: 20px 24px 24px; border-top: 1px solid var(--line); }
+.about-body p { font-size: 0.92rem; margin-bottom: 14px; }
+.about-body p:last-child { margin-bottom: 0; }
+.about-card[open] .about-body { animation: aboutIn 0.4s var(--ease); }
+@keyframes aboutIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ===== MY AI LITERACY EVIDENCE (clickable card) ===== */
+.ai-card {
+  max-width: 880px;
+  margin: 0 auto;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow), var(--edge);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.ai-card:hover { background: var(--card-strong); box-shadow: var(--shadow-lg), var(--edge); }
+.ai-card summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  cursor: pointer;
+}
+.ai-card summary::-webkit-details-marker { display: none; }
+.ai-card summary:focus-visible { outline: 2px solid var(--blob2); outline-offset: -4px; border-radius: 22px; }
+.ai-head { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.ai-title { font-size: 1.1rem; font-weight: 600; color: var(--ink); }
+.ai-preview { font-size: 0.85rem; color: var(--muted); }
+.ai-toggle {
+  flex-shrink: 0; width: 34px; height: 34px; display: grid; place-items: center;
+  border-radius: 50%; background: var(--tag); border: 1px solid var(--line);
+  box-shadow: var(--edge); color: var(--ink);
+  transition: transform 0.35s var(--ease), color 0.25s;
+}
+.ai-card summary:hover .ai-toggle { color: var(--blob2); }
+.ai-card[open] .ai-toggle { transform: rotate(45deg); }
+.ai-body {
+  display: grid; gap: 28px;
+  padding: 22px 24px 26px;
+  border-top: 1px solid var(--line);
+}
+.ai-intro { font-size: 0.92rem; }
+.ai-body h3 { font-size: 1.05rem; margin-bottom: 12px; }
+.ai-entries { display: grid; gap: 14px; }
+.ai-entry {
+  padding: 18px 20px; border-radius: 18px;
+  background: var(--tag); border: 1px solid var(--line); box-shadow: var(--edge);
+}
+.ai-entry dl { display: grid; grid-template-columns: 130px 1fr; gap: 8px 16px; font-size: 0.85rem; }
+.ai-entry dt { font-weight: 600; color: var(--ink); }
+.ai-entry dd { margin: 0; }
+.ai-qa { display: grid; gap: 16px; }
+.ai-qa h4 { font-size: 0.95rem; color: var(--ink); margin-bottom: 4px; }
+.ai-qa p { font-size: 0.9rem; }
+@media (max-width: 560px) {
+  .ai-card summary, .about-card summary { padding: 16px; }
+  .ai-entry dl { grid-template-columns: 1fr; gap: 4px; }
+  .ai-entry dt { margin-top: 8px; }
+}

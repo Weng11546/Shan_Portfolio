@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project 3 Title | Rowena Clores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ---------- PROJECT DETAIL PAGES (extends style.css) ---------- */
+.page section { padding: 48px 24px; }
+.page main { padding-top: 120px; }
+.back-link { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 28px; font-size: 0.8rem; font-weight: 600; color: var(--muted); transition: color 0.25s; }
+.back-link:hover { color: var(--ink); }
+.back-link i { font-size: 0.7rem; }
+
+.proj-hero { padding-bottom: 24px; }
+.proj-hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); margin-top: 8px; }
+.proj-hero .lead { max-width: 60ch; }
+.proj-hero .buttons { margin-top: 28px; }
+.proj-meta { margin-top: 40px; padding: 26px 28px; background: var(--card); border: 1px solid var(--line); border-radius: 20px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+
+.hero-shot { aspect-ratio: 16 / 8; border-radius: 24px; box-shadow: var(--shadow); }
+.hero-shot i { font-size: 4rem; }
+.shot-caption { margin-top: 10px; text-align: center; font-size: 0.75rem; color: var(--muted); }
+
+.block h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 16px; padding-left: 14px; border-left: 3px solid var(--ink); }
+.block > p { max-width: 70ch; }
+.block .label { margin-bottom: 4px; }
+.block-list { display: grid; gap: 10px; max-width: 70ch; }
+.block-list li { position: relative; padding-left: 22px; }
+.block-list li::before { content: ""; position: absolute; left: 0; top: 0.7em; width: 8px; height: 8px; border-radius: 2px; background: var(--ink); }
+.block .tags { margin-top: 0; }
+.two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+
+.diagram {
+  display: grid; place-items: center; gap: 8px; min-height: 220px; padding: 24px; text-align: center;
+  border: 1.5px dashed var(--line); border-radius: 20px; background: var(--card);
+  color: var(--muted); font-size: 0.85rem;
+}
+.diagram i { font-size: 2rem; }
+.diagram strong { display: block; font-size: 0.95rem; }
+
+.shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
+.shots figure { background: var(--card); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+.shots .thumb { border-radius: 0; }
+.shots figcaption { padding: 14px 18px; font-size: 0.8rem; font-weight: 500; }
+
+.code-box {
+  max-width: 70ch; padding: 20px 22px; border-radius: 16px; overflow-x: auto;
+  background: var(--tag); border: 1px solid var(--line);
+  font: 0.8rem/1.8 "SFMono-Regular", Consolas, "Courier New", monospace; color: var(--ink);
+}
+
+.test-table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; font-size: 0.85rem; }
+.test-table th, .test-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--line); }
+.test-table th { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); background: var(--tag); }
+.test-table tr:last-child td { border-bottom: none; }
+.table-wrap { overflow-x: auto; }
+
+.proj-nav { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 48px; border-top: 1px solid var(--line); }
+.page .reveal.block, .page .proj-hero { will-change: auto; }
+
+@media (max-width: 860px) {
+  .page main { padding-top: 100px; }
+  .page section { padding: 36px 20px; }
+  .two-up { grid-template-columns: 1fr; }
+  .proj-nav .btn { width: 100%; }
+}
+
+/* project images: fill the box */
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+</style>
+<script>
+  /* apply saved theme before the page paints, so there is no flash */
+  try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+</head>
+<body class="page">
+
+<!-- FLOATING NAV (same as the main page) -->
+<header class="nav-wrap">
+  <div class="nav">
+    <a class="logo" href="index.html#home">PORTFOLIO.</a>
+    <nav id="menu" aria-label="Main">
+      <a href="index.html#home">Home</a><a href="index.html#profile">Profile</a><a href="index.html#skills">Skills</a><a href="index.html#projects" class="active">Projects</a><a href="index.html#problem-solving">Problem-Solving</a><a href="index.html#employability">Employability</a><a href="index.html#resume">Resume</a><a href="index.html#certificates">Certificates</a><a href="index.html#github">GitHub</a><a href="index.html#contact">Contact</a><a href="index.html#reflection">Reflection</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Switch light or dark mode"><i class="fa-solid fa-moon"></i></button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- PROJECT HEADER -->
+<section class="proj-hero">
+  <a class="back-link reveal" href="index.html#projects"><i class="fa-solid fa-arrow-left"></i> Back to all projects</a>
+  <p class="label reveal">Project 03 &middot; Specialization Project</p>
+  <h1 class="reveal">Expense Tracker Application </h1>
+  <p class="lead reveal">One or two sentences: which IT area this project shows (web, mobile, cybersecurity, networking, data, AI, cloud, or IT support) and what you built or studied.</p>
+  <div class="buttons reveal">
+    <a class="btn dark" href="#" target="_blank" rel="noopener">Live demo <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+    <a class="btn light" href="https://github.com/edselvillanueva980/Project-ExpenseTracker-" target="_blank" rel="noopener">View on GitHub <i class="fa-brands fa-github"></i></a>
+  </div>
+  <dl class="details proj-meta reveal"><div><dt>Type</dt><dd>Specialization</dd></div><div><dt>Focus area</dt><dd>Mobile Development</dd></div><div><dt>Role</dt><dd>Document Administrator</dd></div><div><dt>Timeline</dt><dd>2025 – 2026</dd></div></dl>
+</section>
+
+<!-- OVERVIEW + PROBLEM -->
+<section class="block">
+  <div class="two-up">
+    <div class="reveal">
+      <h2>Project overview</h2>
+      <p>ExpenseFlow is a mobile application designed to help users track their expenses and manage their finances effectively.</p>
+    </div>
+    <div class="reveal">
+      <h2>Problem statement</h2>
+      <p>Many individuals struggle to keep track of their expenses, leading to financial mismanagement and difficulty in budgeting. ExpenseFlow aims to provide a simple and intuitive solution for users to monitor their spending habits.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIVES + USERS -->
+<section class="block">
+  <div class="two-up">
+    <div class="reveal">
+      <h2>Objectives</h2>
+      <ul class="block-list">
+        <li>To develop a mobile application that helps users monitor and manage their daily expenses efficiently.</li>
+        <li>To allow users to easily record and categorize daily expenses in real-time.</li>
+        <li>To provide users with insightful reports and analytics about their spending patterns.</li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <h2>Target users</h2>
+      <ul class="block-list">
+        <li>Students</li>
+        <li>Young professionals</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNOLOGIES -->
+<section class="block">
+  <div class="reveal">
+    <h2>Technologies used</h2>
+    <ul class="tags"><li>Android Studio</li><li>Kotlin</li><li>Room Database</li><li>XML</li><li>Compose</li><li>Claude</li></ul>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="block">
+  <h2 class="reveal">Key features</h2>
+  <div class="cards four"><article class="info-card reveal"><span class="chip-icon"><i class="fa-solid fa-bullseye"></i></span><h3>Record Expenses</h3><p>Users can easily record their daily expenses with a simple interface.</p></article><article class="info-card reveal"><span class="chip-icon"><i class="fa-solid fa-gears"></i></span><h3>AI Assistant</h3><p>The AI assistant helps users categorize expenses and provides financial insights.</p></article><article class="info-card reveal"><span class="chip-icon"><i class="fa-solid fa-shield-halved"></i></span><h3>Budget Suggestions</h3><p>The app provides personalized budget suggestions based on user spending patterns.</p></article><article class="info-card reveal"><span class="chip-icon"><i class="fa-solid fa-cloud-arrow-up"></i></span><h3>Android platform</h3><p>The app is built for the Android platform and can be run on android devices.</p></article></div>
+</section>
+
+<!-- ARCHITECTURE / DESIGN -->
+<section class="block">
+  <div class="two-up">
+    <div class="reveal">
+      <h2>System architecture</h2>
+      <div class="diagram"><i class="fa-solid fa-sitemap"></i><strong>The Expense Tracker mobile application follows a three-layer architecture consisting of the Mobile Frontend, Backend Server, and Database</strong></div>
+    </div>
+    <div class="reveal">
+      <h2>System design</h2>
+      <div class="diagram"><i class="fa-solid fa-sitemap"></i><strong>The design of the Expense Tracker mobile application focuses on simplicity and ease of use. The user interface is intuitive, allowing users to quickly navigate through the app and record their expenses with minimal effort. The app also provides visual representations of spending patterns through charts and graphs, making it easier for users to understand their financial habits.</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENSHOTS -->
+<section class="block">
+  <h2 class="reveal">Screenshots</h2>
+  <div class="shots">
+    <figure class="reveal"><div class="thumb phone"><img src="main-screen.jpg" alt="ExpenseFlow home screen showing today's total" loading="lazy"></div><figcaption>Home</figcaption></figure>
+    <figure class="reveal"><div class="thumb phone"><img src="reports.jpg" alt="Budget screen with weekly cap and category limits" loading="lazy"></div><figcaption>Reports</figcaption></figure>
+    <figure class="reveal"><div class="thumb phone"><img src="financial-ai.jpg" alt="AI Financial Advisor chat list" loading="lazy"></div><figcaption>AI Advisor</figcaption></figure>
+  </div>
+</section>
+
+<!-- INSTALLATION + USAGE -->
+<section class="block">
+  <div class="two-up">
+    <div class="reveal">
+      <h2>Installation</h2>
+      <pre class="code-box">1. Download the APK file from the GitHub repository.
+2. Install the APK on your Android device.
+3. Open the app.
+</pre>
+    </div>
+    <div class="reveal">
+      <h2>How to use</h2>
+      <p>Explain, step by step, how a user operates the project, from first screen to final result.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTING -->
+<section class="block">
+  <h2 class="reveal">Testing</h2>
+  <div class="table-wrap reveal">
+    <table class="test-table">
+      <thead><tr><th>Test case</th><th>Expected result</th><th>Result</th></tr></thead>
+      <tbody><tr><td>Main feature works</td><td>Expected output is shown</td><td>Pass</td></tr><tr><td>Invalid input</td><td>Handled without crashing</td><td>Pass</td></tr><tr><td>Live demo loads</td><td>Page opens online</td><td>Pass</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- LIMITATIONS + FUTURE -->
+<section class="block">
+  <div class="two-up">
+    <div class="reveal">
+      <h2>Limitations</h2>
+      <ul class="block-list"><li>Optimized for Android devices; performance may vary across different models or OS versions.
+</li><li>Some features, such as cloud backup or report syncing, require an active internet connection.</li></ul>
+    </div>
+    <div class="reveal">
+      <h2>Future improvements</h2>
+      <ul class="block-list"><li>Implement cross-platform support to allow users on both Android and iOS to access the app seamlessly.</li><li>Improve offline capabilities, so users can log expenses without the internet and sync automatically when online</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- PREV / NEXT -->
+<section>
+  <nav class="proj-nav reveal" aria-label="Other projects">
+    <a class="btn light" href="project2.html"><i class="fa-solid fa-arrow-left"></i> Project 2</a>
+    <a class="btn outline" href="index.html#projects">All projects</a>
+    <a class="btn dark" href="project1.html">Project 1 <i class="fa-solid fa-arrow-right"></i></a>
+  </nav>
+</section>
+
+</main>
+
+<footer>
+  <p>&copy; 2026 Rowena Clores. All rights reserved.</p>
+</footer>
+
+<script>
+/* Shared behaviour for the project detail pages: reveal, mobile menu, theme toggle */
+
+/* ---------- SCROLL REVEAL ---------- */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      el.classList.add("show");
+      revealObserver.unobserve(el);
+      setTimeout(() => { el.style.transitionDelay = ""; }, 1200);
+    }
+  });
+}, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
+document.querySelectorAll(".reveal").forEach((el) => {
+  const siblings = el.parentElement.querySelectorAll(":scope > .reveal");
+  const pos = Array.prototype.indexOf.call(siblings, el);
+  el.style.transitionDelay = Math.min(pos, 4) * 90 + "ms";
+  revealObserver.observe(el);
+});
+
+/* ---------- MOBILE MENU ---------- */
+const menu = document.getElementById("menu");
+const menuBtn = document.getElementById("menuBtn");
+menuBtn.addEventListener("click", () => {
+  const open = menu.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", open);
+  menuBtn.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+});
+
+/* ---------- LIGHT / DARK MODE (shares the saved choice with index.html) ---------- */
+const themeBtn = document.getElementById("themeBtn");
+const root = document.documentElement;
+function setIcon() {
+  const dark = root.getAttribute("data-theme") === "dark";
+  themeBtn.innerHTML = dark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+}
+setIcon();
+themeBtn.addEventListener("click", () => {
+  const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  root.setAttribute("data-theme", next);
+  try { localStorage.setItem("theme", next); } catch (e) {}
+  setIcon();
+  themeBtn.classList.remove("spin");
+  void themeBtn.offsetWidth;
+  themeBtn.classList.add("spin");
+});
+
+/* safety net: never leave content hidden if the observer does not fire */
+setTimeout(() => document.querySelectorAll(".reveal").forEach((el) => el.classList.add("show")), 2500);
+</script>
+</body>
+</html>

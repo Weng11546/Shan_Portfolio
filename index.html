@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shan Benedict Rodriguez | IT Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="cert.css">
+<style>
+/* ---------- project thumbnails: images fill the box and never stretch the card ---------- */
+.thumb { overflow: hidden; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ---------- ABOUT ME BOX ---------- */
+.about-card {
+  margin-bottom: 24px; border-radius: 24px;
+  background: var(--card); border: 1px solid var(--line);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow), var(--edge);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.about-card:hover, .about-card[open] { background: var(--card-strong); box-shadow: var(--shadow-lg), var(--edge); }
+.about-card summary {
+  display: flex; align-items: center; gap: 18px; padding: 20px 24px;
+  cursor: pointer; list-style: none; border-radius: 24px;
+}
+.about-card summary::-webkit-details-marker { display: none; }
+.about-head { flex: 1; min-width: 0; }
+.about-title { display: block; font-size: 1.1rem; font-weight: 600; color: var(--ink); }
+.about-preview { display: block; margin-top: 2px; font-size: 0.85rem; color: var(--text); }
+.about-toggle {
+  flex-shrink: 0; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%;
+  background: var(--tag); border: 1px solid var(--line); box-shadow: var(--edge); color: var(--ink); font-size: 0.8rem;
+}
+.about-toggle i { transition: transform 0.3s var(--ease); }
+.about-card[open] .about-toggle i { transform: rotate(45deg); }
+.about-body { display: grid; gap: 14px; padding: 4px 28px 26px; font-size: 0.92rem; }
+.about-body p { margin: 0; }
+
+/* ---------- AI LITERACY SECTION + PREVIEW POPUP ---------- */
+.label .dot { display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; vertical-align: middle; }
+
+.ai-card {
+  display: flex; align-items: center; gap: 22px; width: 100%; max-width: 760px; margin: 0 auto;
+  padding: 26px 30px; border-radius: 28px; text-align: left; cursor: pointer;
+  font-family: var(--font); color: var(--text);
+  background: var(--card); border: 1px solid var(--line);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow), var(--edge);
+  transition: transform 0.35s var(--ease), background 0.3s, box-shadow 0.3s;
+}
+.ai-card:hover, .ai-card:focus-visible { transform: translateY(-5px); background: var(--card-strong); box-shadow: var(--shadow-lg), var(--edge); }
+.ai-card .chip-icon { flex-shrink: 0; }
+.ai-card-text { flex: 1; min-width: 0; }
+.ai-card-text strong { display: block; font-size: 1.15rem; line-height: 1.3; }
+.ai-card-text span { display: block; margin-top: 4px; font-size: 0.9rem; }
+.ai-card-cta {
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text);
+}
+.ai-card-cta i { transition: transform 0.3s var(--ease), color 0.25s; }
+.ai-card:hover .ai-card-cta i { transform: scale(1.2); color: var(--ink); }
+
+body.modal-open { overflow: hidden; }
+.ai-modal {
+  position: fixed; inset: 0; z-index: 200;
+  display: grid; place-items: center; padding: 24px 16px;
+  background: rgba(8, 11, 20, 0.6);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+.ai-modal.open { opacity: 1; visibility: visible; }
+.ai-modal-box {
+  display: flex; flex-direction: column; width: min(100%, 960px); max-height: calc(100vh - 48px);
+  padding: 18px 18px 14px; border-radius: 32px;
+  background: color-mix(in srgb, var(--bg) 86%, var(--blob2) 14%);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg), var(--edge);
+  transform: translateY(14px) scale(0.98); transition: transform 0.35s var(--ease);
+}
+.ai-modal.open .ai-modal-box { transform: none; }
+.ai-modal-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 6px 14px; }
+.ai-file {
+  padding: 8px 16px; border-radius: 999px; background: var(--tag); border: 1px solid var(--line);
+  font: 600 0.78rem/1 "SFMono-Regular", Consolas, "Courier New", monospace; color: var(--ink);
+}
+.ai-close {
+  width: 42px; height: 42px; border-radius: 50%; cursor: pointer;
+  border: 1px solid var(--line); background: var(--tag); color: var(--ink); font-size: 1rem;
+  box-shadow: var(--edge); transition: background 0.25s, transform 0.25s;
+}
+.ai-close:hover { background: var(--card-strong); transform: rotate(90deg); }
+
+.ai-doc {
+  overflow-y: auto; padding: 28px 30px 34px; border-radius: 22px;
+  background: var(--card); border: 1px solid var(--line);
+  scrollbar-width: thin;
+}
+.ai-doc:focus-visible { outline: 2px solid var(--blob2); outline-offset: 2px; }
+.ai-eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.ai-doc-title { margin: 6px 0 22px; font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 700; }
+.ai-doc h4 { margin: 34px 0 12px; padding-left: 14px; border-left: 3px solid var(--blob2); box-shadow: -6px 0 14px -6px var(--blob2); font-size: 1.05rem; font-weight: 600; color: var(--ink); }
+.ai-doc ul { display: grid; gap: 8px; font-size: 0.9rem; }
+.ai-doc li { position: relative; padding-left: 20px; }
+.ai-doc li::before { content: ""; position: absolute; left: 0; top: 0.7em; width: 7px; height: 7px; border-radius: 50%; background: var(--blob2); box-shadow: 0 0 8px var(--blob2); }
+
+.ai-table-wrap { overflow-x: auto; border-radius: 18px; border: 1px solid var(--line); background: var(--tag); }
+.ai-table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 0.85rem; }
+.ai-table th, .ai-table td { padding: 14px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.ai-table th { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.ai-table td:first-child { white-space: nowrap; color: var(--text); }
+.ai-table tr:last-child td { border-bottom: none; }
+
+
+/* ---------- MOCK INTERVIEW VIDEO POPUP ---------- */
+.video-card, .emp-card { font-family: var(--font); color: var(--text); text-align: left; cursor: pointer; }
+.video-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink); }
+.video-cta i { font-size: 1.1rem; transition: transform 0.3s var(--ease); }
+.video-card:hover .video-cta i, .video-card:focus-visible .video-cta i, .emp-card:hover .video-cta i, .emp-card:focus-visible .video-cta i { transform: scale(1.2); }
+.video-wrap { overflow: hidden; border-radius: 22px; background: #000; border: 1px solid var(--line); }
+.video-wrap video { display: block; width: 100%; max-height: calc(100vh - 170px); background: #000; }
+
+.emp-lead { margin: 0 0 6px; font-size: 0.95rem; }
+.emp-link { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.video-notes { padding: 4px 6px 4px; }
+.video-notes h4 { margin: 18px 0 10px; font-size: 0.95rem; color: var(--ink); }
+.video-notes ul { display: grid; gap: 6px; font-size: 0.88rem; }
+.video-notes li { position: relative; padding-left: 18px; }
+.video-notes li::before { content: ""; position: absolute; left: 0; top: 0.65em; width: 6px; height: 6px; border-radius: 50%; background: var(--blob2); }
+.ai-modal-box { overflow-y: auto; }
+
+@media (max-width: 860px) {
+  .ai-card { flex-wrap: wrap; padding: 22px; }
+  .ai-card-cta { width: 100%; justify-content: flex-end; }
+  .ai-doc { padding: 22px 18px 28px; }
+  .ai-modal-box { border-radius: 26px; padding: 14px 12px 12px; }
+}
+</style>
+<script>
+  /* apply saved theme before the page paints, so there is no flash */
+  try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <p class="loader-name">Shan Benedict Rodriguez</p>
+    <p class="loader-sub">Portfolio loading</p>
+    <div class="loader-bar"><span id="loaderBar"></span></div>
+  </div>
+</div>
+
+<!-- FLOATING NAV -->
+<header class="nav-wrap">
+  <div class="nav">
+    <a class="logo" href="#home">PORTFOLIO.</a>
+
+    <nav id="menu" aria-label="Main">
+      <a href="#home" class="active">Home</a>
+      <a href="#profile">Profile</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#problem-solving">Problem-Solving</a>
+      <a href="#employability">Employability</a>
+      <a href="#resume">Resume</a>
+      <a href="#certificates">Certificates</a>
+      <a href="#ai-literacy">AI Literacy</a>
+      <a href="#github">GitHub</a>
+      <a href="#contact">Contact</a>
+      <a href="#reflection">Reflection</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Switch light or dark mode"><i class="fa-solid fa-moon"></i></button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- HOME -->
+<section id="home" class="hero">
+  <div class="hero-text">
+    <h1 class="reveal">Hi, I'm Shan Benedict Rodriguez</h1>
+    <p class="typing reveal"><span id="typed"></span><span class="caret"></span></p>
+    <p class="lead reveal">BSIT student and future Network Administrator and IT Consultant, with a strong interest in network management, troubleshooting, and technology solutions. Committed to enhancing technical competencies and gaining practical experience in the information technology field.</p>
+    <div class="buttons reveal">
+      <a class="btn dark" href="#projects">Explore work <i class="fa-solid fa-arrow-right"></i></a>
+      <a class="btn light" href="shan_resume.pdf" download>Download CV <i class="fa-solid fa-download"></i></a>
+    </div>
+    <div class="connect reveal">
+      <p class="label">Connect</p>
+      <div class="socials">
+        <a href="https://www.facebook.com/shanbenedict.rodriguez.1/about" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://github.com/Itshiro21" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/shan-benedict-rodriguez-463437310/?isSelfProfile=false" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual reveal">
+    <div class="photo-circle">
+      <!-- To use your photo: delete the <i> line and un-comment the <img> line -->
+<img src="shan.png" alt="Photo of Shan Benedict Rodriguez"> 
+    </div>
+    <ul class="chips">
+      <li><span class="chip-icon"><i class="fa-solid fa-graduation-cap"></i></span> BSIT Student</li>
+      <li><span class="chip-icon"><i class="fa-solid fa-network-wired"></i></span>Network Administrator</li>
+      <li><span class="chip-icon"><i class="fa-solid fa-bullseye"></i></span>IT Consultant</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 1. PROFESSIONAL PROFILE -->
+<section id="profile">
+  <header class="sec-head reveal">
+    <p class="label">Discover</p>
+    <h2>Professional Profile</h2>
+  </header>
+
+  <div class="profile-grid">
+    <div class="profile-photo reveal">
+      <img src="shan.png" alt="Photo of Shan Benedict Rodriguez"> 
+    </div>
+
+    <div class="profile-info">
+      <details class="about-card reveal">
+  <summary>
+    <span class="chip-icon"><i class="fa-solid fa-user"></i></span>
+    <span class="about-head">
+      <span class="about-title">About Me</span>
+      <span class="about-preview">BSIT student, web and data enthusiast. Tap to read more.</span>
+    </span>
+    <span class="about-toggle" aria-hidden="true"><i class="fa-solid fa-plus"></i></span>
+  </summary>
+  <div class="about-body">
+    <p>I am a fourth-year BSIT student specializing in Web Development and Data Analysis. My academic journey has given me a solid foundation in programming, databases, and systems thinking, and I enjoy turning that knowledge into working solutions. I have built projects ranging from a poultry feed POS system to an Android expense tracker, and each one taught me how much careful planning and testing matter.</p>
+    <p>My technical strengths include HTML, CSS, JavaScript, Python, and SQL, along with version control using Git and GitHub. I also have a growing interest in networking and troubleshooting, which sharpens my ability to find and fix problems quickly.</p>
+    <p>What motivates me most is applying technology to real-world problems that make processes more efficient. I am drawn to IT work that combines technical skill with coordination, so I am working toward becoming an IT Project Manager who can plan schedules, guide teams, and manage budgets. Along the way, I hope to grow into a Network Administrator or IT Consultant.</p>
+    <p>I value continuous learning, honesty in my work, and collaboration. I believe good IT solutions are built with the people who will use them in mind, and I want to keep improving both my code and my communication. I am ready to take on new challenges, learn from every project, and contribute to a team that values quality and growth.</p>
+  </div>
+</details>
+      <div class="two-col">
+        <div class="reveal">
+          <h3 class="underlined">Who Am I</h3>
+          <p> Hi! I'm Shan Benedict Rodriguez, a I am a fourth-year BSIT student specializing in Web Development and Data Analysis.<br><br> I am motivated to work in the IT field because I want to apply my technical skills to real-world problems, continue learning new technologies, and develop solutions that can make processes more efficient.</p>
+        </div>
+        <div class="reveal">
+          <h3 class="underlined">My Goal</h3>
+          <p>The goal is to become a proficient IT Project Manager that plans and manages IT projects, teams, schedules, and budgets.</p>
+        </div>
+      </div>
+
+      <h3 class="bar reveal">Personal Details</h3>
+      <dl class="details reveal">
+        <div><dt>Full name</dt><dd>Shan Benedict Rodriguez </dd></div>
+        <div><dt>BSIT specialization</dt><dd> Network Administrator</dd></div>
+        <div><dt>Target IT position</dt><dd>Network Administrator</dd></div>
+        <div><dt>Preferred IT field</dt><dd> Network Administrator and IT Consultant</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 2. TECHNICAL SKILLS -->
+<section id="skills">
+  <header class="sec-head reveal">
+    <p class="label">Expertise</p>
+    <h2>Technical Skills</h2>
+  </header>
+
+  <div class="skill-row reveal">
+    <div class="skill-intro">
+      <h3>Programming</h3>
+      <p>The languages I use to build websites and applications.</p>
+    </div>
+    <div class="tiles">
+      <div class="tile"><i class="fa-brands fa-html5"></i><span>HTML</span></div>
+      <div class="tile"><i class="fa-brands fa-css3-alt"></i><span>CSS</span></div>
+      <div class="tile"><i class="fa-brands fa-js"></i><span>JavaScript</span></div>
+      <div class="tile"><i class="fa-brands fa-python"></i><span>Python</span></div>
+    </div>
+  </div>
+
+  <div class="skill-row reveal">
+    <div class="skill-intro">
+      <h3>Tools</h3>
+      <p>The tools that help me work faster and stay organized.</p>
+    </div>
+    <div class="tiles">
+      <div class="tile"><i class="fa-brands fa-github"></i><span>GitHub</span></div>
+      <div class="tile"><i class="fa-solid fa-terminal"></i><span>VS Code</span></div>
+    </div>
+  </div>
+
+  <div class="skill-row reveal">
+    <div class="skill-intro">
+      <h3>Other skills</h3>
+      <p>Support skills that round out my IT knowledge.</p>
+    </div>
+    <div class="tiles">
+      <div class="tile"><i class="fa-solid fa-network-wired"></i><span>Networking</span></div>
+      <div class="tile"><i class="fa-solid fa-screwdriver-wrench"></i><span>Troubleshooting</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. PROJECTS (each card opens its own page) -->
+<section id="projects">
+  <header class="sec-head center reveal">
+    <p class="label">Portfolio</p>
+    <h2>Selected Works</h2>
+  </header>
+
+  <div class="cards three">
+    <article class="project reveal">
+      <div class="thumb"><img src="POS-logo.png" alt="Project 1"></div>
+      <div class="project-body">
+        <div class="meta">Project 1 &middot; Web / Application</div>
+        <h3>Poultry Feed Stock Tracking with POS Application</h3>
+        <p>Automates inventory management and sales transactions, and improves the accuracy of stock records in poultry feed businesses.</p>
+        <a class="btn outline full" href="project1.html">View details</a>
+      </div>
+    </article>
+    <article class="project reveal">
+      <div class="thumb"><img src="shan_ss.png" alt="Project 2"></div>
+      <div class="project-body">
+        <div class="meta">Project 2 &middot; Data / Database</div>
+        <h3>IT Help Desk Ticket Analysis</h3>
+        <p>Analyses IT help desk tickets to identify common issues, trends, and areas for improvement in the support process.</p>
+        <a class="btn outline full" href="project2.html">View details</a>
+      </div>
+    </article>
+    <article class="project reveal">
+      <div class="thumb"><img src="ExpenseFlow-logo.jpg" alt="Project 3"></div>
+      <div class="project-body">
+        <div class="meta">Project 3 &middot; Mobile App</div>
+        <h3>ExpenseFlow (Expense Tracker)</h3>
+        <p>An Android app that helps students and employees record daily spending, get AI-assisted insights, and manage their budgets.</p>
+        <a class="btn outline full" href="project3.html">View details</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- 4. PROBLEM-SOLVING (timeline) -->
+<section id="problem-solving">
+  <header class="sec-head center reveal">
+    <p class="label">My process</p>
+    <h2>Problem-Solving</h2>
+  </header>
+
+  <ol class="timeline">
+    <li class="reveal">
+      <article class="tl-card">
+        <p class="meta">Case TS-001</p>
+        <h3>Laptop Won't Connect to Wi-Fi</h3>
+        <p>A laptop showed no Wi-Fi networks while other devices in the same room connected normally. I checked that Wi-Fi was switched on, restarted the laptop and router, and confirmed other devices could join the network. The cause was airplane mode, which had been turned on by accident. Turning it off restored the connection.</p>
+        <p><strong>Lesson:</strong> Check the simplest settings first before looking into hardware or network problems.</p>
+        <ul class="tags"><li>Networking</li><li>Wi-Fi</li></ul>
+      </article>
+    </li>
+    <li class="reveal">
+      <article class="tl-card">
+        <p class="meta">Case TS-002</p>
+        <h3>Printer Prints Blank Pages</h3>
+        <p>The office printer fed paper and ran normally, but every page came out blank. I checked the ink or toner levels, printed a test page from the printer settings, and confirmed the correct printer was selected on the computer. The toner cartridge was nearly empty, and replacing it fixed the problem.</p>
+        <p><strong>Lesson:</strong> Check consumable levels before running deeper diagnostics.</p>
+        <ul class="tags"><li>Hardware</li><li>Printing</li></ul>
+      </article>
+    </li>
+    <li class="reveal">
+      <article class="tl-card">
+        <p class="meta">Case TS-003</p>
+        <h3>Computer Runs Slowly</h3>
+        <p>A desktop took several minutes to start up and responded slowly to clicks. I reviewed Task Manager for high CPU and memory use, checked free space on the system drive, and reviewed the startup list. Several unneeded programs were set to launch at startup. Disabling them significantly reduced startup time.</p>
+        <p><strong>Lesson:</strong> Startup programs are a common and easily fixed cause of slow performance.</p>
+        <ul class="tags"><li>Performance</li><li>Windows</li></ul>
+      </article>
+    </li>
+    <li class="reveal">
+      <article class="tl-card">
+        <p class="meta">Case TS-004</p>
+        <h3>Door Access Card Not Working</h3>
+        <p>An employee's card opened the main door but not the storage room door. I checked the employee's access permissions, tested another card on the storage room reader, and looked for a status light or error on the reader. The employee's access group had not been updated after a role change. Adding the storage room to the group fixed the issue.</p>
+        <p><strong>Lesson:</strong> Access problems are often a permissions issue rather than a hardware fault.</p>
+        <ul class="tags"><li>Access Control</li><li>Permissions</li></ul>
+      </article>
+    </li>
+    <li class="reveal">
+      <article class="tl-card">
+        <p class="meta">Case TS-005</p>
+        <h3>Email Not Sending</h3>
+        <p>An employee could receive emails but could not send them, and messages stayed in the Outbox. I confirmed the internet connection by opening a web page, checked the outgoing mail server settings, and re-entered the account password. The password had expired. Updating it allowed emails to send normally.</p>
+        <p><strong>Lesson:</strong> When email can receive but not send, check account credentials and outgoing server settings first.</p>
+        <ul class="tags"><li>Email</li><li>Credentials</li></ul>
+      </article>
+    </li>
+    <li class="reveal">
+      <article class="tl-card">
+        <p class="meta">Case TS-006</p>
+        <h3>Login Form Vulnerable to SQL Injection</h3>
+        <p><strong>1. Vulnerability:</strong> The login form builds its database query by inserting user input directly into the SQL statement, without checking or separating it from the query.</p>
+        <p><strong>2. How it happens:</strong> An attacker types a crafted value such as <code>' OR '1'='1</code> into the username field. The database reads the input as part of the query logic, so the check can be bypassed and the attacker gets in without a valid password.</p>
+        <p><strong>3. Risks:</strong> Unauthorized account access, theft or change of customer and staff data, and possible loss of the entire database.</p>
+        <p><strong>4. Prevention by developers:</strong> Use parameterized queries or prepared statements so user input is always treated as data, never as SQL. Validate input on the server side and avoid building queries with string concatenation.</p>
+        <p><strong>5. Security practices:</strong> Give the application's database account only the permissions it needs, hash passwords with a strong algorithm, show generic error messages instead of raw database errors, review code with security checks, and test forms with tools such as OWASP ZAP before release.</p>
+        <p><strong>Lesson:</strong> Never trust user input. Separate data from commands and the most common injection attacks can be prevented.</p>
+        <ul class="tags"><li>Cyber Security</li><li>SQL Injection</li><li>Secure Coding</li></ul>
+      </article>
+    </li>
+  </ol>
+</section>
+
+<!-- 5. EMPLOYABILITY -->
+<section id="employability">
+  <header class="sec-head center reveal">
+    <p class="label">Ready for work</p>
+    <h2>Employability</h2>
+  </header>
+
+  <div class="cards four">
+    <button type="button" class="info-card emp-card reveal" data-emp="communication" aria-haspopup="dialog" aria-controls="empModal"><span class="chip-icon"><i class="fa-solid fa-comments"></i></span><h3>Communication</h3><p>Explaining technical work clearly in writing and in person.</p><span class="video-cta"><i class="fa-solid fa-circle-info"></i> View details</span></button>
+    <button type="button" class="info-card emp-card reveal" data-emp="teamwork" aria-haspopup="dialog" aria-controls="empModal"><span class="chip-icon"><i class="fa-solid fa-people-group"></i></span><h3>Teamwork</h3><p>Working with a team on shared projects through defined roles.</p><span class="video-cta"><i class="fa-solid fa-circle-info"></i> View details</span></button>
+    <button type="button" class="info-card emp-card reveal" data-emp="time" aria-haspopup="dialog" aria-controls="empModal"><span class="chip-icon"><i class="fa-solid fa-clock"></i></span><h3>Time management</h3><p>Planning work in stages and meeting deadlines.</p><span class="video-cta"><i class="fa-solid fa-circle-info"></i> View details</span></button>
+    <button type="button" class="info-card video-card reveal" id="videoOpen" aria-haspopup="dialog" aria-controls="videoModal"><span class="chip-icon"><i class="fa-solid fa-user-tie"></i></span><h3>Mock interview</h3><p>A recorded mock IT job interview. Watch it and see what I practised.</p><span class="video-cta"><i class="fa-solid fa-circle-play"></i> Watch interview</span></button>
+  </div>
+</section>
+
+<!-- 6. RESUME -->
+<section id="resume">
+  <header class="sec-head center reveal">
+    <p class="label">Background</p>
+    <h2>Resume</h2>
+  </header>
+
+  <div class="cards three">
+    <article class="info-card reveal">
+      <span class="chip-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+      <h3>Education</h3>
+      <p><strong>Bachelor of Science in Information Technology</strong><br>Datamex College of Saint Adeline, 2026 – Present</p>
+    </article>
+    <article class="info-card reveal">
+      <span class="chip-icon"><i class="fa-solid fa-star"></i></span>
+      <h3>Highlights</h3>
+      <p>Add two or three key skills or achievements.</p>
+      <a class="btn dark" href="shan_resume.pdf" download>Download resume <i class="fa-solid fa-download"></i></a>
+    </article>
+  </div>
+</section>
+
+<!-- 7. CERTIFICATES / ACHIEVEMENTS -->
+<section id="certificates">
+  <header class="sec-head center reveal">
+    <p class="label">Recognition</p>
+    <h2>Certificates &amp; Achievements</h2>
+  </header>
+
+   <ul class="cert-list">
+    <li class="reveal">
+      <a class="cert-link" href="cert. 1.pdf" data-alt="Certificate of Participation: Web Dev 101: System Integration | Connecting Apps via API">
+        <span class="chip-icon"><i class="fa-solid fa-certificate"></i></span>
+        <div><strong>Web Dev 101: System Integration | Connecting Apps via API</strong><span>UpskillTechPH Training Services, August 8, 2026</span></div>
+        <i class="fa-solid fa-expand cert-open" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="reveal">
+      <a class="cert-link" href="cert. 2.pdf" data-alt="Certificate of Participation: Cyber Awareness, Cyber Threats in 2026 and How to Stay Safe">
+        <span class="chip-icon"><i class="fa-solid fa-certificate"></i></span>
+        <div><strong>Cyber Awareness: Cyber Threats in 2026 and How to Stay Safe</strong><span>UpskillTechPH Training Services, August 8, 2026</span></div>
+        <i class="fa-solid fa-expand cert-open" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="reveal">
+      <a class="cert-link" href="cert. 3.pdf" data-alt="Certificate of Participation: QA 101: Software Quality | Bug Tracking and Manual Testing">
+        <span class="chip-icon"><i class="fa-solid fa-certificate"></i></span>
+        <div><strong>QA 101: Software Quality | Bug Tracking and Manual Testing</strong><span>UpskillTechPH Training Services, August 5, 2026</span></div>
+        <i class="fa-solid fa-expand cert-open" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="reveal">
+      <a class="cert-link" href="cert. 4.png" data-alt="Certificate of Participation:Linux & System Administration: Master of the Command Line">
+        <span class="chip-icon"><i class="fa-solid fa-certificate"></i></span>
+        <div><strong>Linux & System Administration: Master of the Command Line</strong><span>Ethel Programming Computer Programming Services, August 7, 2026</span></div>
+        <i class="fa-solid fa-expand cert-open" aria-hidden="true"></i>
+      </a>
+    </li>
+     <li class="reveal">
+      <a class="cert-link" href="cert. 5.png" data-alt="Certificate of Participation: IT Infrastructure and Cloud Computing: Building the Digital Future">
+        <span class="chip-icon"><i class="fa-solid fa-certificate"></i></span>
+        <div><strong>IT Infrastructure and Cloud Computing: Building the Digital Future</strong><span>Ethel Programming Computer Programming Services, August 8, 2026</span></div>
+        <i class="fa-solid fa-expand cert-open" aria-hidden="true"></i>
+      </a>
+    </li>
+  </ul>
+</section>
+
+<!-- 8. AI LITERACY EVIDENCE (click to preview) -->
+<section id="ai-literacy">
+  <header class="sec-head center reveal">
+    <p class="label"><span class="dot"></span>Responsible AI use</p>
+    <h2>AI Literacy Evidence</h2>
+  </header>
+
+  <button type="button" class="ai-card reveal" id="aiOpen" aria-haspopup="dialog" aria-controls="aiModal">
+    <span class="chip-icon big"><i class="fa-solid fa-robot"></i></span>
+    <span class="ai-card-text">
+      <strong>My AI Literacy Evidence document</strong>
+      <span>An AI Usage Log showing what I used AI for, what I checked myself, and where AI got things wrong.</span>
+    </span>
+    <span class="ai-card-cta">Preview document <i class="fa-solid fa-eye"></i></span>
+  </button>
+</section>
+
+<!-- 9. GITHUB -->
+<section id="github">
+  <div class="github-card reveal">
+    <span class="chip-icon big"><i class="fa-brands fa-github"></i></span>
+    <h2>GitHub</h2>
+    <p>Browse my code, repositories, and contributions.</p>
+    <a class="btn dark" href="https://github.com/Itshiro21" target="_blank" rel="noopener">Visit my GitHub <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+  </div>
+</section>
+
+<!-- 10. CONTACT -->
+<section id="contact">
+  <header class="sec-head center reveal">
+    <p class="label">Get in touch</p>
+    <h2>Contact</h2>
+  </header>
+
+  <div class="contact-grid">
+    <ul class="contact-list reveal">
+      <li><span class="chip-icon"><i class="fa-solid fa-envelope"></i></span> rodriguez.shanbenedict@gmail.com</li>
+      <li><span class="chip-icon"><i class="fa-solid fa-phone"></i></span> +63 9910728220</li>
+      <li><span class="chip-icon"><i class="fa-brands fa-linkedin-in"></i></span> https://www.linkedin.com/in/shan-benedict-rodriguez-463437310/?isSelfProfile=false</li>
+      <li><span class="chip-icon"><i class="fa-solid fa-location-dot"></i></span> Metro Manila, Parañaque City</li>
+    </ul>
+
+    <form class="form-card reveal" action="#" method="post">
+      <h3>Send an email directly.</h3>
+      <label for="name">Name</label>
+      <input id="name" type="text" placeholder="Your name">
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="you@example.com">
+      <label for="message">Message</label>
+      <textarea id="message" rows="5" placeholder="Your message here..."></textarea>
+      <button class="btn dark full" type="submit">Send message</button>
+    </form>
+  </div>
+</section>
+
+<!-- 11. REFLECTION -->
+<section id="reflection">
+  <header class="sec-head center reveal">
+    <p class="label">Looking back</p>
+    <h2>Reflection</h2>
+  </header>
+  <blockquote class="quote reveal">
+As an Information Technology (IT) student, getting involved in the creation of my portfolio turned out to be a great experience. This assignment allowed me to demonstrate my skills and knowledge of the programming languages and web development that I learned and accumulated throughout my college education. During this period, I discovered that the creation of such a project requires specific skills and abilities, namely, creativity and patience. <br><br>
+
+To elaborate, I managed to apply my knowledge and experience in programming languages to create my portfolio. During the creation of the project, I dealt with various programming languages’ nuances, which made me understand how web design works. Moreover, I learned that one mistake in coding can result in aesthetic or functional issues in a website. To this end, the process of creating my portfolio acquainted me with the intricacies of this procedure. Furthermore, I got familiar with the process of using Artificial Intelligence (AI) as a tool to facilitate this task. In fact, approximately a half of my work involved the use of AI. While using AI was a great discovery for me, it also taught me that I cannot rely solely on this tool. I should rather regard AI as a learning companion that assists in the creation of my portfolio. <br><br>
+
+In addition, I encountered a number of challenges that required me to use my patience and creative skills. Indeed, developing a website was more difficult than I expected. I had to constantly debug and revise the design to meet specific requirements and to ensure that it looks attractive rather than boring. Altogether, the process of creating my portfolio taught me a lot about programming and designing. <br><br>
+
+Finally, as an upcoming IT graduate, this project became a great opportunity to prove my readiness to work in the IT field. In fact, a portfolio is an integral tool that enables the job hunter to demonstrate their skills and work to potential employers. As such, this assignment helped me to motivate myself to continue developing my expertise in programming and web design. During this process, I also learned how to balance between being a critical reviewer of my own work and an enthusiast who is eager to continue creating content. Altogether, my experience of making a portfolio improved my soft skills, including critical thinking and motivation. In particular, making this assignment made me more confident in my skills as an IT graduate. <br><br>
+
+In summary, my portfolio creation experience is a valuable lesson in my IT education that enabled me to value the role of programming and creativity in this field. Although I relied on the capabilities of AI in developing my portfolio, this project made me realize the importance of hard work and motivation in my education and profession. I am looking forward to continuing my education, mastering new skills, and expanding my knowledge in web design and programming. In particular, I am eager to learn how to use AI to facilitate my tasks and to continue challenging myself by overcoming my weaknesses in programming. <br><br>
+  </blockquote>
+</section>
+
+</main>
+
+<footer>
+  <p>&copy; 2026 Shan Benedict Rodriguez. All rights reserved.</p>
+</footer>
+
+<!-- AI LITERACY PREVIEW POPUP -->
+<div class="ai-modal" id="aiModal" role="dialog" aria-modal="true" aria-labelledby="aiDocTitle" aria-hidden="true">
+  <div class="ai-modal-box">
+    <div class="ai-modal-bar">
+      <span class="ai-file">ai-usage-log.md</span>
+      <button type="button" class="ai-close" id="aiClose" aria-label="Close preview"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="ai-doc" tabindex="0">
+      <p class="ai-eyebrow">AI Literacy Evidence &middot; Shan Benedict Rodriguez</p>
+      <h3 class="ai-doc-title" id="aiDocTitle">AI Usage Log</h3>
+
+      <div class="ai-table-wrap">
+        <table class="ai-table">
+          <thead>
+            <tr><th>Date</th><th>Task</th><th>AI assistance</th><th>My verification</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>[October 20, 2026]</td>
+              <td>Drafting the SQL injection case study (TS-006)</td>
+              <td>Produced a first draft of the five answers: vulnerability, how it happens, risks, prevention and security practices.</td>
+              <td>Checked each claim against standard descriptions of SQL injection and parameterized queries, then rewrote it as a general case study rather than a personal experience.</td>
+            </tr>
+            <tr>
+              <td>Oct 24, 2026</td>
+              <td>Adding the AI Literacy section and preview popup to my portfolio</td>
+              <td>Wrote the HTML, CSS and JavaScript for the section, the document popup, and the navigation link.</td>
+              <td>Opened the page in my browser and tested clicking the card, closing with the X button, the Esc key and the dark background, in both light and dark mode and at a narrow screen width.</td>
+            </tr>
+            <tr>
+              <td>Oct 24, 2026</td>
+              <td>Fixing the Project 2 picture that stretched its card</td>
+              <td>Found that the stylesheet had no rule to size images inside the project thumbnails, and supplied the fix.</td>
+              <td>Reloaded the page and confirmed all three project cards now have the same thumbnail size.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>What did AI help me accomplish?</h4>
+      <ul>
+        <li>Drafted the structure of the SQL injection case study so I could review and rewrite it faster.</li>
+        <li>Built the AI Literacy section, popup and navigation link for this portfolio.</li>
+        <li>Identified the cause of a layout bug (an unsized project image) that I had noticed but could not explain.</li>
+      </ul>
+
+      <h4>What did I personally verify?</h4>
+      <ul>
+        <li>Ran every change in my own browser instead of trusting that it would work.</li>
+        <li>Checked the security explanations against standard descriptions of SQL injection.</li>
+        <li>Made sure the text on my site describes work I actually did, and replaced anything that did not.</li>
+      </ul>
+
+      <h4>What did I learn from using AI?</h4>
+      <ul>
+        <li>Clear, specific requests with my real files and screenshots give much better results than vague ones.</li>
+        <li>AI is a strong helper for drafts and fixes, but I still need to understand the result well enough to explain it.</li>
+        <li>I am responsible for everything I publish, including the parts AI helped write.</li>
+      </ul>
+
+      <h4>What limitations or errors did I discover in AI-generated answers?</h4>
+      <ul>
+        <li>An early draft of this log contained example entries that were not based on my real work, so I had to replace them with true ones.</li>
+        <li>AI can only work with what it can see. When it did not have my latest files, parts of its answers did not match my project.</li>
+        <li>AI wording can sound confident even when a detail is wrong, so facts and code need to be checked.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- EMPLOYABILITY DETAILS POPUP -->
+<div class="ai-modal" id="empModal" role="dialog" aria-modal="true" aria-labelledby="empTitle" aria-hidden="true">
+  <div class="ai-modal-box">
+    <div class="ai-modal-bar">
+      <span class="ai-file" id="empFile">employability.md</span>
+      <button type="button" class="ai-close" id="empClose" aria-label="Close details"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ai-doc" id="empDoc" tabindex="0"></div>
+  </div>
+</div>
+
+<!-- MOCK INTERVIEW VIDEO POPUP -->
+<div class="ai-modal" id="videoModal" role="dialog" aria-modal="true" aria-labelledby="videoTitle" aria-hidden="true">
+  <div class="ai-modal-box">
+    <div class="ai-modal-bar">
+      <span class="ai-file" id="videoTitle">Mock IT Interview &middot; Shan Benedict Rodriguez</span>
+      <button type="button" class="ai-close" id="videoClose" aria-label="Close video"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="video-wrap">
+      <video id="interviewVideo" controls playsinline preload="none">
+        <source src="shan_interview.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+/* AI Literacy: click the card to preview the document in a popup */
+(function () {
+  const openBtn = document.getElementById("aiOpen");
+  const modal = document.getElementById("aiModal");
+  if (!openBtn || !modal) return;
+  const closeBtn = document.getElementById("aiClose");
+  const doc = modal.querySelector(".ai-doc");
+
+  function openModal() {
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    doc.scrollTop = 0;
+    closeBtn.focus();
+  }
+  function closeModal() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+    openBtn.focus();
+  }
+
+  openBtn.addEventListener("click", openModal);
+  closeBtn.addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+  });
+})();
+</script>
+<script>
+/* Mock interview: click the card to watch the video in a popup */
+(function () {
+  const openBtn = document.getElementById("videoOpen");
+  const modal = document.getElementById("videoModal");
+  if (!openBtn || !modal) return;
+  const closeBtn = document.getElementById("videoClose");
+  const video = document.getElementById("interviewVideo");
+
+  function openModal() {
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    closeBtn.focus();
+    const p = video.play(); if (p && p.catch) p.catch(function () {});
+  }
+  function closeModal() {
+    video.pause();
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+    openBtn.focus();
+  }
+
+  openBtn.addEventListener("click", openModal);
+  closeBtn.addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+  });
+})();
+</script>
+<script>
+/* Employability: click a card to read the details in a popup */
+(function () {
+  const modal = document.getElementById("empModal");
+  if (!modal) return;
+  const doc = document.getElementById("empDoc");
+  const file = document.getElementById("empFile");
+  const closeBtn = document.getElementById("empClose");
+  let lastBtn = null;
+
+  const DATA = {
+    communication: {
+      file: "communication.md", eyebrow: "Employability \u00b7 Communication", title: "Communication",
+      lead: "Good communication means making technical work easy for other people to understand, whether they read it or hear it.",
+      sections: [
+        ["How I show it in this portfolio", [
+          "I wrote six troubleshooting cases (TS-001 to TS-006) in the same order every time: what happened, what I checked, the cause, and the lesson. Anyone can follow my reasoning step by step.",
+          "I explained SQL injection in five clear parts (vulnerability, how it happens, risks, prevention and security practices) so a non-technical reader can follow it too.",
+          "My project pages cover the overview, problem statement, objectives, target users, installation steps and limitations, so a new reader can understand and run the project."
+        ]],
+        ["Where I used it in my projects", [
+          "On ExpenseFlow my role was Document Administrator, which meant keeping the project's written information clear and organised.",
+          "I recorded a mock IT job interview to practise explaining my skills out loud."
+        ]],
+        ["What I learned", [
+          "A clear structure matters as much as the content.",
+          "Explaining a problem simply shows that I actually understand it."
+        ]]
+      ],
+      links: [["See the case studies", "#problem-solving"]]
+    },
+    teamwork: {
+      file: "teamwork.md", eyebrow: "Employability \u00b7 Teamwork", title: "Teamwork",
+      lead: "Teamwork means doing my part reliably, keeping others informed and working with shared tools so the whole project moves forward.",
+      sections: [
+        ["How I show it in this portfolio", [
+          "My POS project (Poultry Feed Stock Tracking) and ExpenseFlow were built with shared GitHub repositories, where several people's work comes together in one place.",
+          "On the POS project my role was Administrative Assistant. On ExpenseFlow it was Document Administrator. Each role supported the team by keeping information organised and up to date.",
+          "I use Git and GitHub for version control, so changes are tracked and the team can work without overwriting each other."
+        ]],
+        ["What I bring to a team", [
+          "I take a clear role and follow through on it.",
+          "I keep documentation accurate so teammates are working from the same information.",
+          "I test and report problems early, as shown in the testing tables on my project pages."
+        ]],
+        ["What I learned", [
+          "Clear roles and shared documents prevent confusion.",
+          "A project is only as strong as the way its team coordinates."
+        ]]
+      ],
+      links: [["See my projects", "#projects"]]
+    },
+    time: {
+      file: "time-management.md", eyebrow: "Employability \u00b7 Time management", title: "Time management",
+      lead: "Time management means breaking work into stages, setting priorities and finishing what I start.",
+      sections: [
+        ["How I show it in this portfolio", [
+          "My projects ran from 2025 to 2026 alongside my studies, and the project pages show them as completed.",
+          "Each project follows the same stages: plan the objectives, build, test and document. The testing tables show I did not leave checking to the last minute.",
+          "I earned five training certificates between August 5 and August 8, 2026, covering web development, cyber awareness, software testing, Linux and cloud computing."
+        ]],
+        ["How I plan my work", [
+          "Break a big task into small steps.",
+          "Do the most important or blocking step first.",
+          "Test as I go, so fixes do not pile up at the deadline."
+        ]],
+        ["What I learned", [
+          "Starting early leaves time for debugging, which always takes longer than expected.",
+          "Finishing in stages is easier to manage than doing everything at once."
+        ]]
+      ],
+      links: [["See my certificates", "#certificates"]]
+    }
+  };
+
+  function esc(t) { return t; }
+  function render(d) {
+    let h = '<p class="ai-eyebrow">' + d.eyebrow + ' &middot; Shan Benedict Rodriguez</p>';
+    h += '<h3 class="ai-doc-title" id="empTitle">' + d.title + '</h3>';
+    h += '<p class="emp-lead">' + d.lead + '</p>';
+    d.sections.forEach(function (sec) {
+      h += '<h4>' + sec[0] + '</h4><ul>' + sec[1].map(function (i) { return '<li>' + esc(i) + '</li>'; }).join("") + '</ul>';
+    });
+    if (d.links && d.links.length) {
+      h += '<p style="margin-top:26px">' + d.links.map(function (l) { return '<a class="emp-link" href="' + l[1] + '" data-close>' + l[0] + ' &rarr;</a>'; }).join(" &nbsp; ") + '</p>';
+    }
+    doc.innerHTML = h;
+  }
+
+  function openModal(key, btn) {
+    const d = DATA[key]; if (!d) return;
+    lastBtn = btn; render(d); file.textContent = d.file;
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    doc.scrollTop = 0; closeBtn.focus();
+  }
+  function closeModal() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+    if (lastBtn) lastBtn.focus();
+  }
+
+  document.querySelectorAll("[data-emp]").forEach(function (b) {
+    b.addEventListener("click", function () { openModal(b.getAttribute("data-emp"), b); });
+  });
+  closeBtn.addEventListener("click", closeModal);
+  modal.addEventListener("click", function (e) {
+    if (e.target === modal || e.target.closest("[data-close]")) closeModal();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+  });
+})();
+</script>
+</body>
+</html>

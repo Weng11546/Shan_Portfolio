@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internet Café Sales &amp; Customer Analysis | Shan Benedict Rodriguez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ---------- PROJECT DETAIL PAGES (extends style.css) ---------- */
+.page section { padding: 48px 24px; }
+.page main { padding-top: 120px; }
+.back-link { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 28px; font-size: 0.8rem; font-weight: 600; color: var(--text); transition: color 0.25s; }
+.back-link:hover { color: var(--ink); }
+.back-link i { font-size: 0.7rem; }
+.proj-hero { padding-bottom: 24px; }
+.proj-hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); margin-top: 8px; }
+.proj-hero .lead { max-width: 60ch; }
+.proj-hero .buttons { margin-top: 28px; }
+.proj-meta { margin-top: 40px; padding: 26px 28px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+.block h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 16px; padding-left: 14px; border-left: 3px solid var(--blob2); box-shadow: -6px 0 14px -6px var(--blob2); }
+.block > p { max-width: 70ch; }
+.block-list { display: grid; gap: 10px; max-width: 70ch; }
+.block-list li { position: relative; padding-left: 22px; }
+.block-list li::before { content: ""; position: absolute; left: 0; top: 0.7em; width: 8px; height: 8px; border-radius: 50%; background: var(--blob2); box-shadow: 0 0 8px var(--blob2); }
+.two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 22px; }
+.kpi strong { display: block; font-size: 1.9rem; font-weight: 700; color: var(--ink); line-height: 1.2; }
+.kpi span { font-size: 0.8rem; color: var(--text); }
+.charts { display: grid; gap: 26px; }
+.chart { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 24px; box-shadow: var(--shadow), var(--edge); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+.chart h3 { margin-bottom: 4px; }
+.chart .chart-note { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; }
+.chart svg { width: 100%; height: auto; display: block; }
+.chart figcaption { margin-top: 12px; font-size: 0.85rem; color: var(--text); }
+.chart text { fill: var(--text); font-family: var(--font); font-size: 13px; }
+.chart text.val { fill: var(--ink); font-weight: 600; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .bar-internet { fill: var(--blob2); }
+.chart .bar-other { fill: var(--blob1); }
+.chart .bar-group { fill: var(--blob3); }
+.code-box { max-width: 70ch; padding: 20px 22px; border-radius: 16px; overflow-x: auto; white-space: pre-wrap; background: var(--card); border: 1px solid var(--line); box-shadow: var(--edge); font: 0.8rem/1.8 "SFMono-Regular", Consolas, "Courier New", monospace; color: var(--ink); }
+.test-table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; font-size: 0.85rem; box-shadow: var(--shadow), var(--edge); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+.test-table th, .test-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--line); }
+.test-table th { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); background: var(--tag); }
+.test-table td.num, .test-table th.num { text-align: right; }
+.test-table tr:last-child td { border-bottom: none; }
+.test-table tr.total td { font-weight: 600; color: var(--ink); }
+.table-wrap { overflow-x: auto; }
+.proj-nav { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 48px; border-top: 1px solid var(--line); }
+.page .reveal.block, .page .proj-hero { will-change: auto; }
+@media (max-width: 860px) {
+  .page main { padding-top: 100px; }
+  .page section { padding: 36px 20px; }
+  .two-up { grid-template-columns: 1fr; }
+  .proj-nav .btn { width: 100%; }
+}
+</style>
+<script>
+  /* apply saved theme before the page paints, so there is no flash */
+  try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+</head>
+<body class="page">
+
+<!-- FLOATING NAV (same as the main page) -->
+<header class="nav-wrap">
+  <div class="nav">
+    <a class="logo" href="index.html#home">PORTFOLIO.</a>
+    <nav id="menu" aria-label="Main">
+      <a href="index.html#home">Home</a><a href="index.html#profile">Profile</a><a href="index.html#skills">Skills</a><a href="index.html#projects" class="active">Projects</a><a href="index.html#problem-solving">Problem-Solving</a><a href="index.html#employability">Employability</a><a href="index.html#resume">Resume</a><a href="index.html#certificates">Certificates</a><a href="index.html#github">GitHub</a><a href="index.html#contact">Contact</a><a href="index.html#reflection">Reflection</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Switch light or dark mode"><i class="fa-solid fa-moon"></i></button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- PROJECT HEADER -->
+<section class="proj-hero">
+  <a class="back-link reveal" href="index.html#projects"><i class="fa-solid fa-arrow-left"></i> Back to all projects</a>
+  <p class="label reveal">Project 02 &middot; Data Analysis Case Study</p>
+  <h1 class="reveal">Internet Café Sales &amp; Customer Analysis</h1>
+  <p class="lead reveal">A case study of 50 customer visits to an internet café, looking at who the customers are, how they use the computers and services, and where the sales come from.</p>
+  <div class="buttons reveal">
+  <a class="btn light" href="https://github.com/Weng11546/project2_shan" target="_blank" rel="noopener">View on GitHub <i class="fa-brands fa-github"></i></a>
+</div> 
+<br>
+
+  <dl class="details proj-meta reveal"><div><dt>Type</dt><dd>Data analysis case study</dd></div><div><dt>Tool</dt><dd>Microsoft Excel</dd></div><div><dt>Data</dt><dd>50 customer visits</dd></div><div><dt>Focus</dt><dd>Sales and customer behavior</dd></div></dl>
+</section>
+
+<!-- KEY NUMBERS -->
+<section>
+  <div class="kpis">
+    <article class="info-card kpi reveal"><strong>50</strong><span>Customer visits analyzed</span></article>
+    <article class="info-card kpi reveal"><strong>8,345</strong><span>Total sales</span></article>
+    <article class="info-card kpi reveal"><strong>166.90</strong><span>Average sales per visit</span></article>
+    <article class="info-card kpi reveal"><strong>73.4%</strong><span>Share of sales from internet use</span></article>
+  </div>
+</section>
+
+<!-- OVERVIEW + PROBLEM -->
+<section class="block">
+  <div class="two-up">
+    <div class="reveal">
+      <h2>Project overview</h2>
+      <p>This case study uses a visit-level dataset recorded in an Excel workbook. Each of the 50 visits includes the customer type, age, computer unit, usage hours, gaming use, pages printed, food orders, and sales from internet and other services. The workbook summarizes the data with formulas and presents the results in three charts.</p>
+    </div>
+    <div class="reveal">
+      <h2>Problem statement</h2>
+      <p>The café needs to know which customer types and services bring in the most sales, and which customer habits are linked to higher spending, so that pricing, promotions, and service priorities can be based on evidence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIVES + USERS -->
+<section class="block">
+  <div class="two-up">
+    <div class="reveal">
+      <h2>Objectives</h2>
+      <ul class="block-list">
+        <li>Summarize visits, sales, and usage across all 50 visits.</li>
+        <li>Compare the Student, Worker, and Other customer types on visits, total sales, and average sales per visit.</li>
+        <li>Measure how gaming, food orders, and usage hours relate to sales.</li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <h2>Target users</h2>
+      <ul class="block-list">
+        <li>Café management, who set pricing and service priorities</li>
+        <li>Staff planning promotions and food offerings</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNOLOGIES -->
+<section class="block">
+  <div class="reveal">
+    <h2>Technologies used</h2>
+    <ul class="tags"><li>Microsoft Excel</li><li>Formulas (AVERAGE, MEDIAN, COUNTIF, SUMIF, CORREL)</li><li>Summary tables</li><li>Excel charts</li></ul>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="block">
+  <h2 class="reveal">Key features</h2>
+  <div class="cards four">
+    <article class="info-card reveal"><span class="chip-icon"><i class="fa-solid fa-table"></i></span><h3>Visit dataset</h3><p>50 visits with 12 fields, from customer type and usage hours to food orders and sales.</p></article>
+    <article class="info-card reveal"><span class="chip-icon"><i class="fa-solid fa-calculator"></i></span><h3>Summary statistics</h3><p>Mean, median, minimum, and maximum for usage hours and total sales.</p></article>
+    <article class="info-card reveal"><span class="chip-icon"><i class="fa-solid fa-users"></i></span><h3>Customer breakdown</h3><p>Visit count, total sales, and average sales for each customer type.</p></article>
+    <article class="info-card reveal"><span class="chip-icon"><i class="fa-solid fa-chart-column"></i></span><h3>Charts</h3><p>Three charts covering the revenue split, customer types, and sales by visit group.</p></article>
+  </div>
+</section>
+
+<!-- DATA + WORKBOOK -->
+<section class="block">
+  <div class="two-up">
+    <div class="reveal">
+      <h2>Data model</h2>
+      <ul class="block-list">
+        <li>Categorical: Visit ID, Customer type, Gaming, Food order</li>
+        <li>Numerical: Day, Age, Computer unit, Usage hours, Printing pages, Internet sales, Other sales, Total sales</li>
+        <li>Each row is one customer visit, for 50 visits in total.</li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <h2>Workbook structure</h2>
+      <ul class="block-list">
+        <li><strong>Case_5:</strong> the raw visit data, plus mean, median, minimum, and maximum for usage hours and sales.</li>
+        <li><strong>Pivot:</strong> customer type summary, gaming usage, pages printed, revenue breakdown, and sales by visit group.</li>
+        <li><strong>charts:</strong> the three charts drawn from the Pivot sheet.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CHARTS -->
+<section class="block">
+  <h2 class="reveal">Charts</h2>
+  <div class="charts">
+    <figure class="chart reveal">
+      <h3>Revenue breakdown</h3>
+      <p class="chart-note">Total sales split by source</p>
+      <svg viewBox="0 0 600 190" role="img" aria-label="Revenue split between internet sales and other sales">
+<text x="0" y="60">Internet sales</text>
+<rect class="bar-internet" x="160" y="40" width="278.9" height="40" rx="8"/>
+<text class="val" x="448.9" y="65">6,125 (73.4%)</text>
+<text x="0" y="130">Other sales</text>
+<rect class="bar-other" x="160" y="110" width="101.1" height="40" rx="8"/>
+<text class="val" x="271.1" y="135">2,220 (26.6%)</text>
+</svg>
+      <figcaption>Internet sales make up 73.4% of total sales (6,125 of 8,345), while other sales make up 26.6%.</figcaption>
+    </figure>
+    <figure class="chart reveal">
+      <h3>Average sales per visit by customer type</h3>
+      <p class="chart-note">Average total sales for each customer type</p>
+      <svg viewBox="0 0 600 300" role="img" aria-label="Average sales per visit by customer type">
+<line class="grid" x1="60" x2="580" y1="260.0" y2="260.0"/>
+<text x="52" y="264.0" text-anchor="end">0</text>
+<line class="grid" x1="60" x2="580" y1="200.0" y2="200.0"/>
+<text x="52" y="204.0" text-anchor="end">50</text>
+<line class="grid" x1="60" x2="580" y1="140.0" y2="140.0"/>
+<text x="52" y="144.0" text-anchor="end">100</text>
+<line class="grid" x1="60" x2="580" y1="80.0" y2="80.0"/>
+<text x="52" y="84.0" text-anchor="end">150</text>
+<line class="grid" x1="60" x2="580" y1="20.0" y2="20.0"/>
+<text x="52" y="24.0" text-anchor="end">200</text>
+<rect class="bar-internet" x="106.7" y="61.1" width="80.0" height="198.9" rx="6"/>
+<text class="val" x="146.7" y="53.1" text-anchor="middle">165.75</text>
+<text x="146.7" y="282" text-anchor="middle">Student</text>
+<rect class="bar-other" x="280.0" y="70.0" width="80.0" height="190.0" rx="6"/>
+<text class="val" x="320.0" y="62.0" text-anchor="middle">158.33</text>
+<text x="320.0" y="282" text-anchor="middle">Worker</text>
+<rect class="bar-group" x="453.3" y="47.6" width="80.0" height="212.4" rx="6"/>
+<text class="val" x="493.3" y="39.6" text-anchor="middle">177.00</text>
+<text x="493.3" y="282" text-anchor="middle">Other</text>
+</svg>
+      <figcaption>Other customers have the highest average per visit (177.00), and Workers have the lowest (158.33).</figcaption>
+    </figure>
+    <figure class="chart reveal">
+      <h3>Total sales by visit group</h3>
+      <p class="chart-note">The 50 visits split into seven groups, in the order they appear in the sheet</p>
+      <svg viewBox="0 0 600 300" role="img" aria-label="Total sales by visit group">
+<line class="grid" x1="60" x2="580" y1="260.0" y2="260.0"/>
+<text x="52" y="264.0" text-anchor="end">0</text>
+<line class="grid" x1="60" x2="580" y1="180.0" y2="180.0"/>
+<text x="52" y="184.0" text-anchor="end">500</text>
+<line class="grid" x1="60" x2="580" y1="100.0" y2="100.0"/>
+<text x="52" y="104.0" text-anchor="end">1,000</text>
+<line class="grid" x1="60" x2="580" y1="20.0" y2="20.0"/>
+<text x="52" y="24.0" text-anchor="end">1,500</text>
+<rect class="bar-group" x="76.7" y="43.2" width="40.9" height="216.8" rx="6"/>
+<text class="val" x="97.1" y="35.2" text-anchor="middle">1,355</text>
+<text x="97.1" y="282" text-anchor="middle">Group 1</text>
+<rect class="bar-group" x="151.0" y="88.0" width="40.9" height="172.0" rx="6"/>
+<text class="val" x="171.4" y="80.0" text-anchor="middle">1,075</text>
+<text x="171.4" y="282" text-anchor="middle">Group 2</text>
+<rect class="bar-group" x="225.3" y="84.0" width="40.9" height="176.0" rx="6"/>
+<text class="val" x="245.7" y="76.0" text-anchor="middle">1,100</text>
+<text x="245.7" y="282" text-anchor="middle">Group 3</text>
+<rect class="bar-group" x="299.6" y="80.0" width="40.9" height="180.0" rx="6"/>
+<text class="val" x="320.0" y="72.0" text-anchor="middle">1,125</text>
+<text x="320.0" y="282" text-anchor="middle">Group 4</text>
+<rect class="bar-group" x="373.9" y="68.8" width="40.9" height="191.2" rx="6"/>
+<text class="val" x="394.3" y="60.8" text-anchor="middle">1,195</text>
+<text x="394.3" y="282" text-anchor="middle">Group 5</text>
+<rect class="bar-group" x="448.1" y="64.0" width="40.9" height="196.0" rx="6"/>
+<text class="val" x="468.6" y="56.0" text-anchor="middle">1,225</text>
+<text x="468.6" y="282" text-anchor="middle">Group 6</text>
+<rect class="bar-group" x="522.4" y="56.8" width="40.9" height="203.2" rx="6"/>
+<text class="val" x="542.9" y="48.8" text-anchor="middle">1,270</text>
+<text x="542.9" y="282" text-anchor="middle">Group 7</text>
+</svg>
+      <figcaption>Group totals range from 1,075 to 1,355 and add up to the overall total of 8,345.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- CUSTOMER TABLE -->
+<section class="block">
+  <h2 class="reveal">Customer type summary</h2>
+  <div class="table-wrap reveal">
+    <table class="test-table">
+      <thead><tr><th>Customer type</th><th class="num">Visits</th><th class="num">Total sales</th><th class="num">Average sales per visit</th></tr></thead>
+      <tbody>
+        <tr><td>Student</td><td class="num">20</td><td class="num">3,315</td><td class="num">165.75</td></tr>
+        <tr><td>Worker</td><td class="num">15</td><td class="num">2,375</td><td class="num">158.33</td></tr>
+        <tr><td>Other</td><td class="num">15</td><td class="num">2,655</td><td class="num">177.00</td></tr>
+        <tr class="total"><td>All customers</td><td class="num">50</td><td class="num">8,345</td><td class="num">166.90</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- KEY FINDINGS -->
+<section class="block">
+  <div class="two-up">
+    <div class="reveal">
+      <h2>Key findings</h2>
+      <ul class="block-list">
+        <li>Students account for the most visits (20) and the largest total sales (3,315).</li>
+        <li>Visits with a food order average 206.43 in sales, compared with 151.53 for visits without one.</li>
+        <li>Usage hours and total sales are strongly linked (r ≈ 0.79), so longer visits tend to bring in more sales.</li>
+        <li>Gaming does not change spending: gaming visits average 166.14, and non-gaming visits average 167.50.</li>
+        <li>Customers printed 226 pages in total.</li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <h2>Recommendations</h2>
+      <ul class="block-list">
+        <li>Promote food orders, since visits that include them tend to have higher sales.</li>
+        <li>Encourage longer sessions, since sales rise with usage hours.</li>
+        <li>Do not rely on gaming alone to raise spending. Pair it with other services.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WAS CHECKED -->
+<section class="block">
+  <div class="two-up">
+    <div class="reveal">
+      <h2>How the results were checked</h2>
+      <p>All summary values are calculated with formulas, so they update when the visit data changes. The totals were cross-checked against each other to make sure the breakdowns match the overall figures.</p>
+    </div>
+    <div class="reveal">
+      <h2>Usage hours</h2>
+      <p>Visits average 4.9 hours of computer use, with a median of 5 hours. Usage ranges from 1 to 8 hours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VERIFICATION -->
+<section class="block">
+  <h2 class="reveal">Verification</h2>
+  <div class="table-wrap reveal">
+    <table class="test-table">
+      <thead><tr><th>Check</th><th>Expected result</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Formula recalculation</td><td>No formula errors across 37 formulas</td><td>Pass</td></tr>
+        <tr><td>Revenue breakdown</td><td>6,125 internet + 2,220 other = 8,345</td><td>Pass</td></tr>
+        <tr><td>Customer counts</td><td>20 + 15 + 15 = 50 visits</td><td>Pass</td></tr>
+        <tr><td>Visit group totals</td><td>Seven groups add up to 8,345</td><td>Pass</td></tr>
+        <tr><td>Pages printed</td><td>226 pages</td><td>Pass</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- LIMITATIONS + FUTURE -->
+<section class="block">
+  <div class="two-up">
+    <div class="reveal">
+      <h2>Limitations</h2>
+      <ul class="block-list">
+        <li>The dataset has only 50 visits, so the results describe this sample and may not hold for every period.</li>
+        <li>The links between usage, food orders, and sales show association, not cause.</li>
+        <li>The visit groups are formed by row order in the sheet, not by the Day field.</li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <h2>Future improvements</h2>
+      <ul class="block-list">
+        <li>Group sales by the Day field to show true daily or weekly trends.</li>
+        <li>Add more visits or months of data to test whether these patterns hold.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PREV / NEXT -->
+<section>
+  <nav class="proj-nav reveal" aria-label="Other projects">
+    <a class="btn light" href="project1.html"><i class="fa-solid fa-arrow-left"></i> Project 1</a>
+    <a class="btn outline" href="index.html#projects">All projects</a>
+    <a class="btn dark" href="project3.html">Project 3 <i class="fa-solid fa-arrow-right"></i></a>
+  </nav>
+</section>
+
+</main>
+
+<footer>
+  <p>&copy; 2026 Shan Benedict Rodriguez. All rights reserved.</p>
+</footer>
+
+<script>
+/* Shared behaviour for the project detail pages: reveal, mobile menu, theme toggle */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      el.classList.add("show");
+      revealObserver.unobserve(el);
+      setTimeout(() => { el.style.transitionDelay = ""; }, 1200);
+    }
+  });
+}, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
+document.querySelectorAll(".reveal").forEach((el) => {
+  const siblings = el.parentElement.querySelectorAll(":scope > .reveal");
+  const pos = Array.prototype.indexOf.call(siblings, el);
+  el.style.transitionDelay = Math.min(pos, 4) * 90 + "ms";
+  revealObserver.observe(el);
+});
+
+const menu = document.getElementById("menu");
+const menuBtn = document.getElementById("menuBtn");
+menuBtn.addEventListener("click", () => {
+  const open = menu.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", open);
+  menuBtn.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+});
+
+const themeBtn = document.getElementById("themeBtn");
+const root = document.documentElement;
+function setIcon() {
+  const dark = root.getAttribute("data-theme") === "dark";
+  themeBtn.innerHTML = dark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+}
+setIcon();
+themeBtn.addEventListener("click", () => {
+  const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  root.setAttribute("data-theme", next);
+  try { localStorage.setItem("theme", next); } catch (e) {}
+  setIcon();
+  themeBtn.classList.remove("spin");
+  void themeBtn.offsetWidth;
+  themeBtn.classList.add("spin");
+});
+
+setTimeout(() => document.querySelectorAll(".reveal").forEach((el) => el.classList.add("show")), 2500);
+</script>
+</body>
+</html>

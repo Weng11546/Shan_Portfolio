@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Literacy Log | Shan Benedict Rodriguez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ---------- AI LITERACY LOG (extends style.css) ---------- */
+.page section { padding: 48px 24px; }
+.page main { padding-top: 120px; }
+.back-link { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 28px; font-size: 0.8rem; font-weight: 600; color: var(--muted); transition: color 0.25s; }
+.back-link:hover { color: var(--ink); }
+.back-link i { font-size: 0.7rem; }
+
+.proj-hero { padding-bottom: 24px; }
+.proj-hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); margin-top: 8px; }
+.proj-hero .lead { max-width: 60ch; }
+
+.block h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 16px; padding-left: 14px; border-left: 3px solid var(--ink); }
+.block > p { max-width: 70ch; }
+.block-list { display: grid; gap: 10px; max-width: 70ch; }
+.block-list li { position: relative; padding-left: 22px; }
+.block-list li::before { content: ""; position: absolute; left: 0; top: 0.7em; width: 8px; height: 8px; border-radius: 2px; background: var(--ink); }
+
+.two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.qa-card { padding: 28px; }
+.qa-card .chip-icon { margin-bottom: 16px; }
+.qa-card h3 { margin-bottom: 10px; }
+.qa-card p { font-size: 0.9rem; }
+.qa-card .block-list { font-size: 0.9rem; max-width: none; }
+
+.test-table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; font-size: 0.85rem; }
+.test-table th, .test-table td { padding: 14px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.test-table th { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); background: var(--tag); white-space: nowrap; }
+.test-table td:first-child { white-space: nowrap; font-weight: 600; color: var(--ink); }
+.test-table tr:last-child td { border-bottom: none; }
+.table-wrap { overflow-x: auto; }
+.table-wrap .test-table { min-width: 760px; }
+
+.note { max-width: 70ch; padding: 22px 26px; border-radius: 20px; font-size: 0.9rem; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow), var(--edge); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+
+.proj-nav { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 48px; border-top: 1px solid var(--line); }
+
+@media (max-width: 860px) {
+  .page main { padding-top: 100px; }
+  .page section { padding: 36px 20px; }
+  .two-up { grid-template-columns: 1fr; }
+  .proj-nav .btn { width: 100%; }
+}
+</style>
+<script>
+  /* apply saved theme before the page paints, so there is no flash */
+  try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+</head>
+<body class="page">
+
+<!-- FLOATING NAV (same as the main page) -->
+<header class="nav-wrap">
+  <div class="nav">
+    <a class="logo" href="index.html#home">PORTFOLIO.</a>
+    <nav id="menu" aria-label="Main">
+      <a href="index.html#home">Home</a><a href="index.html#profile">Profile</a><a href="index.html#skills">Skills</a><a href="index.html#projects">Projects</a><a href="index.html#problem-solving">Problem-Solving</a><a href="index.html#employability">Employability</a><a href="index.html#resume">Resume</a><a href="index.html#certificates">Certificates</a><a href="ai-literacy.html" class="active">AI Literacy</a><a href="index.html#github">GitHub</a><a href="index.html#contact">Contact</a><a href="index.html#reflection">Reflection</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Switch light or dark mode"><i class="fa-solid fa-moon"></i></button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- HEADER -->
+<section class="proj-hero">
+  <a class="back-link reveal" href="index.html#certificates"><i class="fa-solid fa-arrow-left"></i> Back to certificates</a>
+  <p class="label reveal">Evidence &middot; Responsible AI Use</p>
+  <h1 class="reveal">AI Literacy Log</h1>
+  <p class="lead reveal">How I used AI tools while building my projects and this portfolio, what I checked myself, and what I learned about using AI responsibly.</p>
+</section>
+
+<!-- AI USAGE LOG -->
+<section class="block">
+  <h2 class="reveal">AI Usage Log</h2>
+  <div class="table-wrap reveal">
+    <table class="test-table">
+      <thead>
+        <tr><th>Date</th><th>Task</th><th>AI assistance</th><th>My verification</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sep 14, 2026</td>
+          <td>Plan the ExpenseFlow data structure</td>
+          <td>Suggested tables for expenses, categories, and budgets, and a basic screen flow.</td>
+          <td>Compared the suggestion with my project objectives, built the Room database in Android Studio, and changed the category fields to fit my design.</td>
+        </tr>
+        <tr>
+          <td>Sep 21, 2026</td>
+          <td>Fix a Kotlin / Compose error on the expense list screen</td>
+          <td>Explained the error message and proposed a code fix.</td>
+          <td>Ran the app on an emulator, read the official Android documentation, and kept only the fix that worked without new errors.</td>
+        </tr>
+        <tr>
+          <td>Oct 2, 2026</td>
+          <td>Write SQL queries for the IT Help Desk Ticket Analysis</td>
+          <td>Drafted queries for ticket counts per category and average resolution time.</td>
+          <td>Ran the queries on the sample data and checked the totals against the spreadsheet. Corrected a grouping mistake in one query.</td>
+        </tr>
+        <tr>
+          <td>Oct 9, 2026</td>
+          <td>Understand SQL injection for problem-solving case TS-006</td>
+          <td>Summarized how the attack works and how developers prevent it.</td>
+          <td>Cross-checked the points with OWASP guidance, then rewrote the explanation in my own words.</td>
+        </tr>
+        <tr>
+          <td>Oct 17, 2026</td>
+          <td>Improve the portfolio layout and responsive CSS</td>
+          <td>Gave ideas for the glass-style theme and for mobile spacing.</td>
+          <td>Tested the pages in light and dark mode and at phone, tablet, and desktop widths, then fixed overflow and spacing issues by hand.</td>
+        </tr>
+        <tr>
+          <td>Oct 22, 2026</td>
+          <td>Proofread project descriptions and the About Me section</td>
+          <td>Suggested clearer wording and fixed grammar.</td>
+          <td>Checked every statement against what I actually did and removed claims I could not support.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- REFLECTION QUESTIONS -->
+<section class="block">
+  <h2 class="reveal">Reflection</h2>
+  <div class="two-up">
+    <article class="info-card qa-card reveal">
+      <span class="chip-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+      <h3>What did AI help me accomplish?</h3>
+      <ul class="block-list">
+        <li>Planned the ExpenseFlow database and screens faster.</li>
+        <li>Understood error messages and found likely causes sooner.</li>
+        <li>Drafted SQL queries and CSS that I then tested and refined.</li>
+        <li>Improved the wording and grammar of my written content.</li>
+      </ul>
+    </article>
+    <article class="info-card qa-card reveal">
+      <span class="chip-icon"><i class="fa-solid fa-circle-check"></i></span>
+      <h3>What did I personally verify?</h3>
+      <ul class="block-list">
+        <li>Ran and tested all code on a real emulator or browser.</li>
+        <li>Checked SQL totals against the original data.</li>
+        <li>Confirmed technical facts with official documentation such as Android docs and OWASP.</li>
+        <li>Made sure every description matched the work I actually did.</li>
+      </ul>
+    </article>
+    <article class="info-card qa-card reveal">
+      <span class="chip-icon"><i class="fa-solid fa-lightbulb"></i></span>
+      <h3>What did I learn from using AI?</h3>
+      <ul class="block-list">
+        <li>Clear, specific prompts with context give much better answers.</li>
+        <li>AI is a helper for ideas and explanations, not a replacement for understanding.</li>
+        <li>Asking AI to explain its answer helped me learn the concept, not just copy the result.</li>
+        <li>I remain responsible for the final work I submit.</li>
+      </ul>
+    </article>
+    <article class="info-card qa-card reveal">
+      <span class="chip-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+      <h3>What limitations or errors did I discover?</h3>
+      <ul class="block-list">
+        <li>Some code looked correct but failed when I ran it or used outdated methods.</li>
+        <li>One SQL query grouped results incorrectly and gave wrong totals.</li>
+        <li>AI sometimes sounded confident while being wrong, so I could not trust it without checking.</li>
+        <li>It did not know the details of my project unless I explained them, so some suggestions did not fit.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- RESPONSIBLE USE -->
+<section class="block">
+  <h2 class="reveal">Responsible AI use</h2>
+  <p class="note reveal">I use AI as a support tool. I review and test its output, check facts against reliable sources, avoid sharing private or sensitive data in prompts, and write my final work in my own words so that it truthfully reflects my skills.</p>
+</section>
+
+<!-- NAV -->
+<section>
+  <nav class="proj-nav reveal" aria-label="Page navigation">
+    <a class="btn light" href="index.html#certificates"><i class="fa-solid fa-arrow-left"></i> Certificates</a>
+    <a class="btn dark" href="index.html#github">GitHub <i class="fa-solid fa-arrow-right"></i></a>
+  </nav>
+</section>
+
+</main>
+
+<footer>
+  <p>&copy; 2026 Shan Benedict Rodriguez. All rights reserved.</p>
+</footer>
+
+<script>
+/* Shared behaviour: reveal, mobile menu, theme toggle */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      el.classList.add("show");
+      revealObserver.unobserve(el);
+      setTimeout(() => { el.style.transitionDelay = ""; }, 1200);
+    }
+  });
+}, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
+document.querySelectorAll(".reveal").forEach((el) => {
+  const siblings = el.parentElement.querySelectorAll(":scope > .reveal");
+  const pos = Array.prototype.indexOf.call(siblings, el);
+  el.style.transitionDelay = Math.min(pos, 4) * 90 + "ms";
+  revealObserver.observe(el);
+});
+
+const menu = document.getElementById("menu");
+const menuBtn = document.getElementById("menuBtn");
+menuBtn.addEventListener("click", () => {
+  const open = menu.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", open);
+  menuBtn.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+});
+
+const themeBtn = document.getElementById("themeBtn");
+const root = document.documentElement;
+function setIcon() {
+  const dark = root.getAttribute("data-theme") === "dark";
+  themeBtn.innerHTML = dark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+}
+setIcon();
+themeBtn.addEventListener("click", () => {
+  const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  root.setAttribute("data-theme", next);
+  try { localStorage.setItem("theme", next); } catch (e) {}
+  setIcon();
+  themeBtn.classList.remove("spin");
+  void themeBtn.offsetWidth;
+  themeBtn.classList.add("spin");
+});
+
+setTimeout(() => document.querySelectorAll(".reveal").forEach((el) => el.classList.add("show")), 2500);
+</script>
+</body>
+</html>
